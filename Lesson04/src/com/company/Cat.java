@@ -6,15 +6,14 @@ public class Cat extends Animal {
         super(breed, name);
     }
 
-    public void talk() {
-        if (canTalk()) {
-            System.out.println ("Meow!");
-        }
-    }
-
     @Override
     public String toString() {
         return "Cat, " + super.toString();
+    }
+
+    @Override
+    protected String getSound() {
+        return "Meow!";
     }
 
     public static class PersianCat extends Cat {

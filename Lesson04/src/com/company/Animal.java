@@ -28,9 +28,18 @@ public abstract class Animal {
         mDead = true;
     }
 
-    protected final boolean canTalk() {
+    private final boolean canTalk() {
         return !mDead && !mSleeping;
     }
+
+    public final void talk() {
+        if (canTalk()) {
+            System.out.println (getSound());
+        }
+    }
+
+    protected abstract String getSound();
+
 
     @Override
     public boolean equals(Object o) {
@@ -50,7 +59,5 @@ public abstract class Animal {
         result = 31 * result + mBreed.hashCode();
         return result;
     }
-
-    public abstract void talk();
 }
 
