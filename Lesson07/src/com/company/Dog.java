@@ -1,7 +1,7 @@
 package com.company;
 
+@Domesticated(CanGuard = true)
 public class Dog extends Animal {
-
     public Dog(String breed, String name) {
         super(breed, name);
     }
@@ -13,7 +13,7 @@ public class Dog extends Animal {
 
     public static class BullDog extends Dog {
          public BullDog(String name) {
-             super("Bulldod", name);
+             super("Bulldog", name);
          }
     }
 

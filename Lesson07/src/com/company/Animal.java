@@ -1,10 +1,18 @@
 package com.company;
 
+import java.lang.annotation.Annotation;
+
 public abstract class Animal {
-    protected String mName;
-    protected String mBreed;
-    private boolean mSleeping = false;
-    private boolean mDead = false;
+    private String mName;
+    private String mBreed;
+
+    private enum State {
+        SLEEPING,
+        AWAKEN,
+        DEAD
+    }
+
+    private State mState = State.AWAKEN;
 
     public Animal(String breed, String name) {
         mBreed = breed;
@@ -13,23 +21,40 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return mBreed + ", " + mName;
+        StringBuilder result = new StringBuilder();
+        if (mBreed != null) {
+            result.append(mBreed);
+            result.append(", ");
+        }
+        result.append(mName);
+
+        for (Annotation a: getClass().getAnnotations()) {
+            if (a instanceof Domesticated) {
+                result.append(" (Домашнее");
+                if (((Domesticated)a).CanGuard()) {
+                    result.append(", служебное");
+                }
+                result.append(')');
+                return result.toString();
+            }
+        }
+
+        result.append(" (Дикое)");
+        return result.toString();
     }
 
     public final void sleep() {
-        mSleeping = true;
+        mState = State.SLEEPING;
     }
 
-    public final void awake() {
-        mSleeping = false;
-    }
+    public final void awake() { mState = State.AWAKEN; }
 
     public final void die() {
-        mDead = true;
+        mState = State.DEAD;
     }
 
-    private final boolean canTalk() {
-        return !mDead && !mSleeping;
+    private boolean canTalk() {
+        return mState == State.AWAKEN;
     }
 
     public final void talk() {
@@ -50,14 +75,25 @@ public abstract class Animal {
         if (getClass() != o.getClass()) return false;
 
         Animal animal = (Animal) o;
-        return mName.equals(animal.mName) && mBreed.equals(animal.mBreed);
+        if (!mName.equals(animal.mName)) {
+            return false;
+        }
+
+        if (mBreed == null) {
+            return animal.mBreed == null;
+        }
+
+        return mBreed.equals(animal.mBreed);
     }
 
     @Override
     public int hashCode() {
         int result = mName.hashCode();
-        result = 31 * result + mBreed.hashCode();
+        if (mBreed != null) {
+            result = 31 * result + mBreed.hashCode();
+        }
         return result;
     }
+
 }
 

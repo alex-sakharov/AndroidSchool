@@ -16,11 +16,13 @@ public class Cat extends Animal {
         return "Meow!";
     }
 
+    @Domesticated
     public static class PersianCat extends Cat {
         public PersianCat (String name) {
             super ("PersianCat", name);
         }
     }
+
     public static class MaineCoon extends Cat {
         public MaineCoon (String name) {
             super ("MaineCoon", name);
