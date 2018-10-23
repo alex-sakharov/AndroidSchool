@@ -6,12 +6,6 @@ public class Dog extends Animal {
         super(breed, name);
     }
 
-    public void talk() {
-        if (canTalk()) {
-            System.out.println("Woof!");
-        }
-    }
-
     @Override
     public String toString() {
         return "Dog, " + super.toString();
@@ -27,4 +21,11 @@ public class Dog extends Animal {
         public Poodle(String name) {
             super("Poodle", name);
         }
-    }}
+    }
+
+    @Override
+    protected String getSound() {
+        return "Woof!";
+    }
+}
+
